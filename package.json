@@ -1,7 +1,8 @@
 {
-  "name": "bookshelf",
+  "name": "mangashelf",
   "version": "0.1.0",
   "private": true,
+  "author": "Pinaki Bhattacharjee <pinakipb2@gmail.com>",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

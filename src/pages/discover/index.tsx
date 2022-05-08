@@ -48,7 +48,7 @@ const Discover: NextPage<any> = ({ mangas }: InferGetStaticPropsType<typeof getS
             <div className="mb-10 xl:w-96 mt-10">
               <input
                 type="search"
-                className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white shadow"
+                className="w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white shadow-lg"
                 placeholder="Search Manga..."
               />
             </div>

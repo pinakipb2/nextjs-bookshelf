@@ -5,11 +5,11 @@ import Tippy from '@tippyjs/react';
 const MangaCard: NextPage<any> = ({ mangas }) => {
   return (
     <>
-      <div className="mx-64 mt-0 items-center justify-center flex flex-col shadow">
+      <div className="mx-64 mt-0 items-center justify-center flex flex-col">
         {mangas.map((manga: any) => {
           return (
             <div key={manga.manga_id} className="flex flex-row">
-              <div className="bg-white w-11/12 rounded p-4 mb-6 relative">
+              <div className="bg-white w-11/12 rounded p-4 mb-6 relative shadow-lg">
                 <div className="flex flex-row space-x-6">
                   <Image src={manga.images.large_image_url} alt={manga.title_english} width={170} height={220} />
                   <div className="flex flex-col">
@@ -32,7 +32,7 @@ const MangaCard: NextPage<any> = ({ mangas }) => {
               </div>
               <div className="w-1/12 ml-6 rounded font-semibold mb-6 items-center flex">
                 <Tippy content="Add to Reading List" placement="right" className="bg-neutral-900 text-white rounded-2xl p-2">
-                  <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-black rounded-full focus:shadow-outline hover:bg-gray-700">
+                  <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-black rounded-full focus:shadow-outline hover:bg-gray-700 shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
                     </svg>

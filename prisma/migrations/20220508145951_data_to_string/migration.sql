@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Manga" ALTER COLUMN "data" SET DATA TYPE TEXT;

@@ -1,25 +1,48 @@
-import type { NextPage } from 'next';
+import type { NextPage, InferGetStaticPropsType } from 'next';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 import MangaCard from '../../components/mangaCard';
 import SEO from '../../components/seo';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export async function getStaticProps() {
-  const res = await fetch('http://localhost:3000/api/mangas?page=1&limit=2').then((res) => res.json());
+  const page: number = 1;
+  const limit: number = 5;
+  const startIndex: number = (page - 1) * limit;
+  const mangas = await prisma.manga.findMany({
+    skip: startIndex,
+    take: limit,
+    select: {
+      manga_id: true,
+      url: true,
+      images: true,
+      title_english: true,
+      title_japanese: true,
+      chapters: true,
+      volumes: true,
+      status: true,
+      popularity: true,
+      synopsis: true,
+      authors: true,
+      genres: true,
+    },
+  });
   return {
     props: {
-      mangas: res.data,
+      mangas,
     },
     revalidate: 10,
   };
 }
 
-const Discover: NextPage<any> = ({ mangas }) => {
+const Discover: NextPage<any> = ({ mangas }: InferGetStaticPropsType<typeof getStaticProps>) => {
   return (
     <>
       <SEO title="Discover" />
       <Header />
-      <div className="bg-neutral-700">
+      <div className="bg-neutral-700 pb-10">
         <div className="mx-64 mt-0 items-center justify-center flex flex-row">
           <div className="flex justify-center">
             <div className="mb-10 xl:w-96 mt-10">

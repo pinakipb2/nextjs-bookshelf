@@ -1,17 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-const fsp = require('fs').promises;
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 interface Mangas {
-  error: string;
+  error?: string;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Mangas>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Mangas | unknown>) {
   switch (req.method) {
     case 'GET': {
       try {
         const TOTAL_MANGAS: number = 213;
-        const file_data = await fsp.readFile('src/mangas/mangas.json');
-        const mangas = JSON.parse(file_data);
 
         const page: number = parseInt(req.query.page as string);
         const limit: number = parseInt(req.query.limit as string);
@@ -36,22 +36,63 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           };
         }
         results.total = TOTAL_MANGAS;
-        results.data = mangas.slice(startIndex, endIndex);
+        // results.data = mangas.slice(startIndex, endIndex);
+
+        const allMangas = await prisma.manga.findMany({
+          select: {
+            manga_id: true,
+            url: true,
+            images: true,
+            title_english: true,
+            title_japanese: true,
+            chapters: true,
+            volumes: true,
+            status: true,
+            popularity: true,
+            synopsis: true,
+            authors: true,
+            genres: true,
+          },
+          orderBy: {
+            manga_id: 'asc',
+          },
+        });
+        console.log(allMangas.length);
 
         if (page <= 0 || limit <= 0) {
           res.status(500).json({ error: 'Page and Limit cannot be Zero or Negtive !!' });
         } else {
           if (!page && !limit) {
-            res.status(200).json(mangas);
+            res.status(200).json(allMangas);
           } else if (!page) {
             res.status(500).json({ error: 'Page is needed !!' });
           } else if (!limit) {
             res.status(500).json({ error: 'Limit is needed !!' });
           } else {
+            results.data = await prisma.manga.findMany({
+              skip: startIndex,
+              take: limit,
+              select: {
+                manga_id: true,
+                url: true,
+                images: true,
+                title_english: true,
+                title_japanese: true,
+                chapters: true,
+                volumes: true,
+                status: true,
+                popularity: true,
+                synopsis: true,
+                authors: true,
+                genres: true,
+              },
+            });
             res.status(200).json(results);
           }
         }
       } catch (error) {
+        console.log(error);
+
         res.status(500).json({ error: 'Error reading data !!' });
       }
       break;

@@ -8,22 +8,25 @@ const MangaCard: NextPage<any> = ({ mangas }) => {
       <div className="mx-64 mt-0 items-center justify-center flex flex-col shadow">
         {mangas.map((manga: any) => {
           return (
-            <div key={manga.id} className="flex flex-row">
+            <div key={manga.manga_id} className="flex flex-row">
               <div className="bg-white w-11/12 rounded p-4 mb-6 relative">
                 <div className="flex flex-row space-x-6">
                   <Image src={manga.images.large_image_url} alt={manga.title_english} width={170} height={220} />
                   <div className="flex flex-col">
-                    <div className="font-bold text-3xl mt-0.5 text-blue-700">{manga.title_english}</div>
+                    <div className="font-bold text-2xl mt-0 text-blue-700">
+                      {manga.title_english.slice(0, 15)}
+                      {manga.title_english.length > 16 && '...'}
+                    </div>
                     <div className="font-bold text-base mt-1 text-blue-800 leading-3">({manga.title_japanese})</div>
-                    <div className="font-extralight text-sm text-justify mt-2 text-black max-w-md first-letter:font-bold first-letter:text-2xl">{manga.synopsis.slice(0, 305)}...</div>
+                    <div className="font-extralight text-sm text-justify mt-2 text-black max-w-md first-letter:font-bold first-letter:text-2xl">{manga.synopsis.slice(0, 290)}...</div>
                     <div className="font-extralight text-sm mt-2 text-black max-w-md">Authors - {manga.authors.join(', ')}</div>
                     <div className="font-extralight text-sm mt-2 text-black max-w-md">Genres - {manga.genres.join(', ')}</div>
                   </div>
                   <div className="flex flex-col">
-                    <div className="font-bold text-base mt-2 text-blue-800 absolute top-2 right-8">
+                    <div className="font-bold text-base mt-2.5 text-blue-800 absolute top-2 right-8">
                       {manga.chapters} Chapters & {manga.volumes} Volumes
                     </div>
-                    <div className="font-bold text-sm mt-2 text-blue-800 absolute top-8 right-8">Status : {manga.status}</div>
+                    <div className="font-bold text-sm mt-2.5 text-green-700 absolute top-8 right-8">Status : {manga.status}</div>
                   </div>
                 </div>
               </div>

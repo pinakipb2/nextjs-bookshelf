@@ -1,11 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-interface props {
-  title?: string;
-}
-
-const SEO: NextPage<props> = ({ title }) => {
+const SEO: NextPage<{ title?: string }> = ({ title }) => {
   return (
     <Head>
       {title ? <title>{title} | The Next Mangashelf App</title> : <title>The Next Mangashelf App</title>}

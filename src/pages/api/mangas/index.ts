@@ -1,13 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../../lib/prisma';
+import { Manga, MangaAPIResponse } from '../../../lib/types';
 
-const prisma = new PrismaClient();
-
-interface Mangas {
-  error?: string;
-}
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse<Mangas | unknown>) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse<MangaAPIResponse | Manga[]>) {
   switch (req.method) {
     case 'GET': {
       try {
@@ -18,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         const startIndex: number = (page - 1) * limit;
         const endIndex: number = page * limit;
 
-        const results: any = {};
+        const results: MangaAPIResponse = {} as MangaAPIResponse;
         if (startIndex > 0) {
           results.previous = {
             page: page - 1,
@@ -41,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           res.status(500).json({ error: 'Page and Limit cannot be Zero or Negative !!' });
         } else {
           if (!page && !limit) {
-            const allMangas = await prisma.manga.findMany({
+            const allMangas: Manga[] = await prisma.manga.findMany({
               select: {
                 manga_id: true,
                 url: true,

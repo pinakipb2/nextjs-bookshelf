@@ -1,15 +1,15 @@
 import { prisma } from '../lib/prisma';
 const fsp = require('fs').promises;
-import { Manga } from '../lib/types';
+import { DBManga } from '../lib/types';
 
 const populateMangas = async () => {
   try {
-    const mangas: Manga[] = [];
+    const mangas: DBManga[] = [];
     for (let i = 1; i <= 213; i++) {
       const file_data = await fsp.readFile(`src/mangas/${i}.json`);
-      const json_data = JSON.parse(file_data);
-      const mangaObject: Manga = {} as Manga;
-      mangaObject.manga_id = json_data.id;
+      const json_data: DBManga = JSON.parse(file_data);
+      const mangaObject: DBManga = {} as DBManga;
+      mangaObject.manga_id = Number(json_data.id);
       mangaObject.url = json_data.url;
       mangaObject.images = json_data.images;
       mangaObject.title_english = json_data.title_english;

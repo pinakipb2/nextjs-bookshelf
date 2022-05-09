@@ -1,17 +1,23 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Tippy from '@tippyjs/react';
+import { Manga, MangaImage } from '../../lib/types';
 
-const MangaCard: NextPage<any> = ({ mangas }) => {
+const MangaCard: NextPage<{ mangas: Manga[] }> = ({ mangas }) => {
   return (
     <>
       <div className="mx-64 mt-0 items-center justify-center flex flex-col">
-        {mangas.map((manga: any) => {
+        {mangas.map((manga: Manga) => {
           return (
             <div key={manga.manga_id} className="flex flex-row">
               <div className="bg-white w-11/12 rounded p-4 mb-6 relative shadow-lg">
                 <div className="flex flex-row space-x-6">
-                  <Image src={manga.images.large_image_url ? manga.images.large_image_url : manga.images.image_url} alt={manga.title_english} width={170} height={220} />
+                  <Image
+                    src={(manga.images as MangaImage).large_image_url ? (manga.images as MangaImage).large_image_url : (manga.images as MangaImage).image_url}
+                    alt={manga.title_english}
+                    width={170}
+                    height={220}
+                  />
                   <div className="flex flex-col">
                     <div className="font-bold text-2xl mt-0 text-blue-700">
                       {manga.title_english.slice(0, 15)}
@@ -21,8 +27,8 @@ const MangaCard: NextPage<any> = ({ mangas }) => {
                     <div className="font-extralight text-sm text-justify mt-2 text-black max-w-md first-letter:font-bold first-letter:text-2xl">
                       {manga.synopsis ? manga.synopsis.slice(0, 290) : 'No Synopsis'}...
                     </div>
-                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Authors - {manga.authors.length > 0 ? manga.authors.join(', ') : '-'}</div>
-                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Genres - {manga.genres.length > 0 ? manga.genres.join(', ') : '-'}</div>
+                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Authors - {(manga.authors as string[]).length > 0 ? (manga.authors as string[]).join(', ') : '-'}</div>
+                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Genres - {(manga.genres as string[]).length > 0 ? (manga.genres as string[]).join(', ') : '-'}</div>
                   </div>
                   <div className="flex flex-col">
                     <div className="font-bold text-base mt-2.5 text-blue-800 absolute top-2 right-8">

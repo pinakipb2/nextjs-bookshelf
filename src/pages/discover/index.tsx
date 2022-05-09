@@ -3,15 +3,14 @@ import Footer from '../../components/footer';
 import Header from '../../components/header';
 import MangaCard from '../../components/mangaCard';
 import SEO from '../../components/seo';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../../lib/prisma';
+import { Manga } from '../../lib/types';
 
 export async function getStaticProps() {
   const page: number = 1;
   const limit: number = 5;
   const startIndex: number = (page - 1) * limit;
-  const mangas = await prisma.manga.findMany({
+  const mangas: Manga[] = await prisma.manga.findMany({
     skip: startIndex,
     take: limit,
     select: {
@@ -40,7 +39,7 @@ export async function getStaticProps() {
   };
 }
 
-const Discover: NextPage<any> = ({ mangas }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Discover: NextPage<{ mangas: Manga[] }> = ({ mangas }) => {
   return (
     <>
       <SEO title="Discover" />

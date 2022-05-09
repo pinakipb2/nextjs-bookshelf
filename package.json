@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "ts-node": "ts-node --compiler-options \"{\\\"module\\\":\\\"commonjs\\\"}\"",
-    "populate": "npm run ts-node .\\src\\scripts\\populateMangas.ts"
+    "populate": "npm run ts-node .\\src\\scripts\\populateMangas.ts",
+    "drop": "npm run ts-node .\\src\\scripts\\dropMangas.ts"
   },
   "dependencies": {
     "@prisma/client": "^3.13.0",

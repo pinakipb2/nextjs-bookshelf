@@ -12,9 +12,9 @@ datasource db {
 
 model Manga {
   id             String   @id @default(cuid())
-  manga_id       Int
-  url            String
-  images         Json
+  manga_id       Int      @unique
+  url            String   @unique
+  images         Json     @unique
   title_english  String
   title_japanese String
   chapters       Int?

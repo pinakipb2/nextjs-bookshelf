@@ -57,7 +57,7 @@ const Discover: NextPage<any> = ({ mangas }: InferGetStaticPropsType<typeof getS
             </div>
           </div>
         </div>
-        <MangaCard mangas={mangas} />
+        {mangas.length > 0 ? <MangaCard mangas={mangas} /> : <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-10 mb-32">Oops! No mangas found.</div>}
       </div>
       <Footer />
     </>

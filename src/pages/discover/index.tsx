@@ -4,7 +4,7 @@ import Header from '../../components/header';
 import MangaCard from '../../components/mangaCard';
 import SEO from '../../components/seo';
 import { getPaginatedMangas } from '../../lib/dbquery';
-import { Manga } from '../../lib/types';
+import { activeRoute, Manga } from '../../lib/types';
 
 export async function getStaticProps() {
   // Reutrn page 'a'(page) with 'b'(limit) records each page
@@ -24,7 +24,7 @@ const Discover: NextPage<{ mangas: Manga[] }> = ({ mangas }: InferGetStaticProps
   return (
     <>
       <SEO title="Discover" />
-      <Header />
+      <Header current={activeRoute.discover} />
       <div className="bg-neutral-700 pb-10">
         <div className="mx-64 mt-0 items-center justify-center flex flex-row">
           <div className="flex justify-center">

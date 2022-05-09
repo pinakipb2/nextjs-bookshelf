@@ -46,3 +46,9 @@ export interface MangaAPIResponse {
   data?: Manga | Manga[];
   error?: string;
 }
+
+export enum activeRoute {
+  discover,
+  list,
+  completed,
+}

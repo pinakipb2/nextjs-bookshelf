@@ -17,7 +17,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     //     for (let i = 1; i <= 213; i++) {
     //       const f_data = await fsp.readFile(`src/mangas/${i}.json`);
     //       const j_data = JSON.parse(f_data);
-    //       console.log(j_data.url);
     //       await prisma.manga.create({
     //         data: {
     //           manga_id: j_data.id,

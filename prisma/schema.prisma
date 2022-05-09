@@ -11,16 +11,16 @@ datasource db {
 }
 
 model Manga {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(cuid())
   manga_id       Int
-  url            String?
-  images         Json?
-  title_english  String?
-  title_japanese String?
+  url            String
+  images         Json
+  title_english  String
+  title_japanese String
   chapters       Int?
   volumes        Int?
-  status         String?
-  popularity     Int?
+  status         String
+  popularity     Int
   synopsis       String?
   authors        String[]
   genres         String[]

@@ -11,20 +11,22 @@ const MangaCard: NextPage<any> = ({ mangas }) => {
             <div key={manga.manga_id} className="flex flex-row">
               <div className="bg-white w-11/12 rounded p-4 mb-6 relative shadow-lg">
                 <div className="flex flex-row space-x-6">
-                  <Image src={manga.images.large_image_url} alt={manga.title_english} width={170} height={220} />
+                  <Image src={manga.images.large_image_url ? manga.images.large_image_url : manga.images.image_url} alt={manga.title_english} width={170} height={220} />
                   <div className="flex flex-col">
                     <div className="font-bold text-2xl mt-0 text-blue-700">
                       {manga.title_english.slice(0, 15)}
                       {manga.title_english.length > 16 && '...'}
                     </div>
                     <div className="font-bold text-base mt-1 text-blue-800 leading-3">({manga.title_japanese})</div>
-                    <div className="font-extralight text-sm text-justify mt-2 text-black max-w-md first-letter:font-bold first-letter:text-2xl">{manga.synopsis.slice(0, 290)}...</div>
-                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Authors - {manga.authors.join(', ')}</div>
-                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Genres - {manga.genres.join(', ')}</div>
+                    <div className="font-extralight text-sm text-justify mt-2 text-black max-w-md first-letter:font-bold first-letter:text-2xl">
+                      {manga.synopsis ? manga.synopsis.slice(0, 290) : 'No Synopsis'}...
+                    </div>
+                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Authors - {manga.authors.length > 0 ? manga.authors.join(', ') : '-'}</div>
+                    <div className="font-extralight text-sm mt-2 text-black max-w-md">Genres - {manga.genres.length > 0 ? manga.genres.join(', ') : '-'}</div>
                   </div>
                   <div className="flex flex-col">
                     <div className="font-bold text-base mt-2.5 text-blue-800 absolute top-2 right-8">
-                      {manga.chapters} Chapters & {manga.volumes} Volumes
+                      {manga.chapters ? manga.chapters : '-'} Chapters & {manga.volumes ? manga.volumes : '-'} Volumes
                     </div>
                     <div className="font-bold text-sm mt-2.5 text-green-700 absolute top-8 right-8">Status : {manga.status}</div>
                   </div>
@@ -32,7 +34,7 @@ const MangaCard: NextPage<any> = ({ mangas }) => {
               </div>
               <div className="w-1/12 ml-6 rounded font-semibold mb-6 items-center flex">
                 <Tippy content="Add to Reading List" placement="right" className="bg-neutral-900 text-white rounded-2xl p-2">
-                  <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-black rounded-full focus:shadow-outline hover:bg-gray-700 shadow-lg">
+                  <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-black rounded-full focus:shadow-outline hover:bg-neutral-800 shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
                     </svg>

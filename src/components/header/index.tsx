@@ -14,9 +14,15 @@ const Header: NextPage = () => {
         </div>
         <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
           <div className="text-sm lg:flex-grow">
-            <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">Docs</div>
-            <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 cursor-pointer">Examples</div>
-            <div className="block mt-4 lg:inline-block lg:mt-0 text-white cursor-pointer">Blog</div>
+            <Link href="/discover">
+              <div className="block mt-4 lg:inline-block lg:mt-0 text-white ml-4 mr-6 cursor-pointer">Discover</div>
+            </Link>
+            <Link href="/list">
+              <div className="block mt-4 lg:inline-block lg:mt-0 text-white mr-6 cursor-pointer">Reading List</div>
+            </Link>
+            <Link href="/completed">
+              <div className="block mt-4 lg:inline-block lg:mt-0 text-white cursor-pointer">Completed Mangas</div>
+            </Link>
           </div>
           <div className="flex">
             <Image src="/profile.png" alt="Mangashelf" width={40} height={40} className="cursor-pointer rounded-full bg-white py-2 items-center justify-center" />

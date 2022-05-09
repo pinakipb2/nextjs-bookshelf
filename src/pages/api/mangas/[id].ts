@@ -12,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   switch (req.method) {
     case 'GET': {
       const id: number = parseInt(req.query.id as string);
-
       try {
         const user = await prisma.manga.findFirst({
           where: {
@@ -33,7 +32,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             genres: true,
           },
         });
-        console.log(user);
         res.status(200).json(user);
       } catch (error) {
         res.status(500).json({ error: 'Manga does not exist !!' });

@@ -28,6 +28,9 @@ export async function getStaticProps() {
       authors: true,
       genres: true,
     },
+    orderBy: {
+      manga_id: 'asc',
+    },
   });
   return {
     props: {

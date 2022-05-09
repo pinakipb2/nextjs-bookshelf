@@ -36,33 +36,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           };
         }
         results.total = TOTAL_MANGAS;
-        // results.data = mangas.slice(startIndex, endIndex);
-
-        const allMangas = await prisma.manga.findMany({
-          select: {
-            manga_id: true,
-            url: true,
-            images: true,
-            title_english: true,
-            title_japanese: true,
-            chapters: true,
-            volumes: true,
-            status: true,
-            popularity: true,
-            synopsis: true,
-            authors: true,
-            genres: true,
-          },
-          orderBy: {
-            manga_id: 'asc',
-          },
-        });
-        console.log(allMangas.length);
 
         if (page <= 0 || limit <= 0) {
-          res.status(500).json({ error: 'Page and Limit cannot be Zero or Negtive !!' });
+          res.status(500).json({ error: 'Page and Limit cannot be Zero or Negative !!' });
         } else {
           if (!page && !limit) {
+            const allMangas = await prisma.manga.findMany({
+              select: {
+                manga_id: true,
+                url: true,
+                images: true,
+                title_english: true,
+                title_japanese: true,
+                chapters: true,
+                volumes: true,
+                status: true,
+                popularity: true,
+                synopsis: true,
+                authors: true,
+                genres: true,
+              },
+              orderBy: {
+                manga_id: 'asc',
+              },
+            });
             res.status(200).json(allMangas);
           } else if (!page) {
             res.status(500).json({ error: 'Page is needed !!' });
@@ -85,6 +82,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
                 synopsis: true,
                 authors: true,
                 genres: true,
+              },
+              orderBy: {
+                manga_id: 'asc',
               },
             });
             res.status(200).json(results);

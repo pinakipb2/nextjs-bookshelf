@@ -38,9 +38,9 @@ const MangaCard: NextPage<{ mangas: Manga[] }> = ({ mangas }) => {
                   </div>
                 </div>
               </div>
-              <div className="w-1/12 ml-6 rounded font-semibold mb-6 items-center flex">
+              <div className="w-1/11 ml-6 rounded font-semibold mb-6 items-center flex">
                 <Tippy content="Add to Reading List" placement="right" className="bg-neutral-900 text-white rounded-xl p-2 pl-3 pr-3">
-                  <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-black rounded-full focus:shadow-outline hover:bg-neutral-800 shadow-lg">
+                  <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-purple-700 rounded-full focus:shadow-outline hover:bg-purple-800 shadow-lg">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clipRule="evenodd" />
                     </svg>

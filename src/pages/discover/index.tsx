@@ -1,7 +1,7 @@
 import type { NextPage, InferGetStaticPropsType } from 'next';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
-import MangaCard from '../../components/mangaCard';
+import MangaCard from '../../components/mangaCards/discover';
 import SEO from '../../components/seo';
 import { getPaginatedMangas } from '../../lib/dbquery';
 import { activeRoute, Manga } from '../../lib/types';

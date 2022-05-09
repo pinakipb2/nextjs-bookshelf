@@ -40,7 +40,7 @@ const MangaCard: NextPage<{ mangas: Manga[] }> = ({ mangas }) => {
               </div>
               <div className="flex flex-col justify-evenly">
                 <div className="w-1/11 ml-6 rounded font-semibold mb-6 items-center flex">
-                  <Tippy content="Mark as Completed" placement="right" className="bg-neutral-900 text-white rounded-xl p-2 pl-3 pr-3">
+                  <Tippy content="Mark as Read" placement="right" className="bg-neutral-900 text-white rounded-xl p-2 pl-3 pr-3">
                     <button className="inline-flex items-center justify-center w-8 h-8 mr-2 text-white transition-colors duration-150 bg-emerald-700 rounded-full focus:shadow-outline hover:bg-emerald-800 shadow-lg">
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path

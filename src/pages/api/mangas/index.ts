@@ -1,88 +1,54 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../../lib/prisma';
 import { Manga, MangaAPIResponse } from '../../../lib/types';
+import { TOTAL_MANGAS } from '../../../lib/constants';
+import { getAllMangas, getPaginatedMangas } from '../../../lib/dbquery';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<MangaAPIResponse | Manga[]>) {
   switch (req.method) {
     case 'GET': {
       try {
-        const TOTAL_MANGAS: number = 213;
-
-        const page: number = parseInt(req.query.page as string);
-        const limit: number = parseInt(req.query.limit as string);
-        const startIndex: number = (page - 1) * limit;
-        const endIndex: number = page * limit;
-
-        const results: MangaAPIResponse = {} as MangaAPIResponse;
-        if (startIndex > 0) {
-          results.previous = {
-            page: page - 1,
-            limit,
-          };
-        }
-        results.self = {
-          page: page,
-          limit,
-        };
-        if (endIndex < TOTAL_MANGAS) {
-          results.next = {
-            page: page + 1,
-            limit,
-          };
-        }
-        results.total = TOTAL_MANGAS;
-
+        // Reutrn page 'a'(page) with 'b'(limit) records each page
+        const page: number = Number(req.query.page);
+        const limit: number = Number(req.query.limit);
+        // If page or limit is negative show error
         if (page <= 0 || limit <= 0) {
           res.status(500).json({ error: 'Page and Limit cannot be Zero or Negative !!' });
         } else {
+          // If page and limit, both are not present
+          // show all the mangas available
           if (!page && !limit) {
-            const allMangas: Manga[] = await prisma.manga.findMany({
-              select: {
-                manga_id: true,
-                url: true,
-                images: true,
-                title_english: true,
-                title_japanese: true,
-                chapters: true,
-                volumes: true,
-                status: true,
-                popularity: true,
-                synopsis: true,
-                authors: true,
-                genres: true,
-              },
-              orderBy: {
-                manga_id: 'asc',
-              },
-            });
+            const allMangas: Manga[] = await getAllMangas();
             res.status(200).json(allMangas);
           } else if (!page) {
+            // If page is not present, return error
             res.status(500).json({ error: 'Page is needed !!' });
           } else if (!limit) {
+            // If limit is not present, return error
             res.status(500).json({ error: 'Limit is needed !!' });
           } else {
-            results.data = await prisma.manga.findMany({
-              skip: startIndex,
-              take: limit,
-              select: {
-                manga_id: true,
-                url: true,
-                images: true,
-                title_english: true,
-                title_japanese: true,
-                chapters: true,
-                volumes: true,
-                status: true,
-                popularity: true,
-                synopsis: true,
-                authors: true,
-                genres: true,
-              },
-              orderBy: {
-                manga_id: 'asc',
-              },
-            });
-            res.status(200).json(results);
+            // Return paginated Mangas
+            const startIndex: number = (page - 1) * limit;
+            const endIndex: number = page * limit;
+            const paginatedMangas: MangaAPIResponse = {} as MangaAPIResponse;
+            if (startIndex > 0) {
+              paginatedMangas.previous = {
+                page: page - 1,
+                limit,
+              };
+            }
+            paginatedMangas.self = {
+              page: page,
+              limit,
+            };
+            if (endIndex < TOTAL_MANGAS) {
+              paginatedMangas.next = {
+                page: page + 1,
+                limit,
+              };
+            }
+            paginatedMangas.total = TOTAL_MANGAS;
+            paginatedMangas.data = await getPaginatedMangas(startIndex, limit);
+            res.status(200).json(paginatedMangas);
           }
         }
       } catch (error) {

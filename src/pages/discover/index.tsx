@@ -2,9 +2,12 @@ import type { NextPage, InferGetStaticPropsType } from 'next';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 import MangaCard from '../../components/mangaCards/discover';
+import Pagination from '../../components/pagination';
 import SEO from '../../components/seo';
 import { getPaginatedMangas } from '../../lib/dbquery';
 import { activeRoute, Manga } from '../../lib/types';
+import { TOTAL_MANGAS } from '../../lib/constants';
+import { useState } from 'react';
 
 export async function getStaticProps() {
   // Reutrn page 'a'(page) with 'b'(limit) records each page
@@ -15,12 +18,24 @@ export async function getStaticProps() {
   return {
     props: {
       mangas,
+      limit,
     },
     revalidate: 10,
   };
 }
 
-const Discover: NextPage<{ mangas: Manga[] }> = ({ mangas }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Discover: NextPage<{ mangas: Manga[]; limit: number }> = ({ mangas, limit }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  // Current Page Number
+  const [pageNumber, setPageNumber] = useState<number>(0);
+  // Number of pages visited
+  const pagesVisited: number = pageNumber * limit;
+  // Total number of pages
+  const pageCount: number = Math.ceil(TOTAL_MANGAS / limit);
+  // Function to change page number
+  const changePage = ({ selected }: { selected: number }): void => {
+    setPageNumber(selected);
+  };
+
   return (
     <>
       <SEO title="Discover" />
@@ -71,7 +86,16 @@ const Discover: NextPage<{ mangas: Manga[] }> = ({ mangas }: InferGetStaticProps
             </div>
           </div>
         </div>
-        {mangas.length > 0 ? <MangaCard mangas={mangas} /> : <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-10 mb-32">Oops! No mangas found.</div>}
+        {mangas.length > 0 ? (
+          <>
+            <MangaCard mangas={mangas} />
+            <div className="mx-64 items-center justify-center flex flex-col pb-5">
+              <Pagination pageCount={pageCount} changePage={changePage} />
+            </div>
+          </>
+        ) : (
+          <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-10 mb-14">Oops! No mangas found.</div>
+        )}
       </div>
       <Footer />
     </>

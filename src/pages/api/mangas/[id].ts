@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       break;
     }
     default: {
-      res.status(500).json({ error: 'Method not Supported !!' });
+      res.status(505).json({ error: 'Method not Supported !!' });
     }
   }
 }

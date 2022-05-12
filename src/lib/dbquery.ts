@@ -61,3 +61,17 @@ export const getMangaById = async (ID: number): Promise<Manga | null> => {
     return null;
   }
 };
+
+export const getMangaByDBId = async (ID: string): Promise<Manga | null> => {
+  try {
+    const singleManga: Manga | null = await prisma.manga.findFirst({
+      where: {
+        id: ID,
+      },
+      select,
+    });
+    return singleManga;
+  } catch (err) {
+    return null;
+  }
+};

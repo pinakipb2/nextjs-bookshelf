@@ -6,13 +6,13 @@ import Pagination from '../../components/pagination';
 import SEO from '../../components/seo';
 import { getPaginatedMangas } from '../../lib/dbquery';
 import { activeRoute, Manga } from '../../lib/types';
-import { TOTAL_MANGAS } from '../../lib/constants';
+import { PAGE_LIMIT, REVALIDATE_IN, TOTAL_MANGAS } from '../../lib/constants';
 import { useState } from 'react';
 
 export async function getStaticProps() {
   // Reutrn page 'a'(page) with 'b'(limit) records each page
   const page: number = 1;
-  const limit: number = 5;
+  const limit: number = PAGE_LIMIT;
   const skip: number = (page - 1) * limit;
   const mangas: Manga[] | null = await getPaginatedMangas(skip, limit);
   return {
@@ -20,7 +20,7 @@ export async function getStaticProps() {
       mangas,
       limit,
     },
-    revalidate: 10,
+    revalidate: REVALIDATE_IN,
   };
 }
 

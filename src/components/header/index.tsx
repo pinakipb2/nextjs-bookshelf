@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { activeRoute } from '../../lib/types';
 
-const Header: NextPage<{ current: activeRoute }> = ({ current }) => {
+const Header: NextPage<{ current?: activeRoute }> = ({ current }) => {
   return (
     <>
       <nav className="flex items-center justify-between flex-wrap bg-teal p-6 dark:bg-neutral-900">

@@ -3,6 +3,7 @@ import Footer from '../../components/footer';
 import Header from '../../components/header';
 import MangaCard from '../../components/mangaCards/list';
 import SEO from '../../components/seo';
+import { REVALIDATE_IN } from '../../lib/constants';
 import { getPaginatedMangas } from '../../lib/dbquery';
 import { activeRoute, Manga } from '../../lib/types';
 
@@ -16,7 +17,7 @@ export async function getStaticProps() {
     props: {
       mangas,
     },
-    revalidate: 10,
+    revalidate: REVALIDATE_IN,
   };
 }
 

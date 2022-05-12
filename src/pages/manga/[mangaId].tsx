@@ -1,6 +1,8 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import Footer from '../../components/footer';
 import Header from '../../components/header';
+import MangaDetails from '../../components/mangaDetails';
 import SEO from '../../components/seo';
 import { PAGE_LIMIT, REVALIDATE_IN } from '../../lib/constants';
 import { getMangaByDBId, getPaginatedMangas } from '../../lib/dbquery';
@@ -44,6 +46,8 @@ const MangaById: NextPage<{ manga: Manga }> = ({ manga }) => {
       <>
         <SEO title="Loading..." />
         <Header />
+        <MangaDetails isLoading={true} />
+        <Footer />
       </>
     );
   }
@@ -51,6 +55,8 @@ const MangaById: NextPage<{ manga: Manga }> = ({ manga }) => {
     <>
       <SEO title={manga.title_english} />
       <Header />
+      <MangaDetails manga={manga} />
+      <Footer />
     </>
   );
 };

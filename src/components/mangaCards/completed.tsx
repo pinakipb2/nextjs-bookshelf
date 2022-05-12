@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 import Image from 'next/image';
 import Tippy from '@tippyjs/react';
 import { Manga, MangaImage } from '../../lib/types';
+import Link from 'next/link';
 
 const MangaCard: NextPage<{ mangas: Manga[] }> = ({ mangas }) => {
   return (
@@ -12,17 +13,23 @@ const MangaCard: NextPage<{ mangas: Manga[] }> = ({ mangas }) => {
             <div key={manga.manga_id} className="flex flex-row">
               <div className="bg-white w-11/12 rounded p-4 mb-6 relative shadow-lg">
                 <div className="flex flex-row space-x-6">
-                  <Image
-                    src={(manga.images as MangaImage).large_image_url ? (manga.images as MangaImage).large_image_url : (manga.images as MangaImage).image_url}
-                    alt={manga.title_english}
-                    width={170}
-                    height={220}
-                  />
+                  <Link href={`/manga/${manga.id}`}>
+                    <a>
+                      <Image
+                        src={(manga.images as MangaImage).large_image_url ? (manga.images as MangaImage).large_image_url : (manga.images as MangaImage).image_url}
+                        alt={manga.title_english}
+                        width={170}
+                        height={220}
+                      />
+                    </a>
+                  </Link>
                   <div className="flex flex-col">
-                    <div className="font-bold text-2xl mt-0 text-blue-700">
-                      {manga.title_english.slice(0, 15)}
-                      {manga.title_english.length > 16 && '...'}
-                    </div>
+                    <Link href={`/manga/${manga.id}`}>
+                      <div className="font-bold text-2xl mt-0 text-blue-700 hover:cursor-pointer hover:underline hover:underline-offset-1">
+                        {manga.title_english.slice(0, 15)}
+                        {manga.title_english.length > 16 && '...'}
+                      </div>
+                    </Link>
                     <div className="font-bold text-base mt-1 text-blue-800 leading-3">({manga.title_japanese})</div>
                     <div className="font-extralight text-sm text-justify mt-2 text-black max-w-md first-letter:font-bold first-letter:text-2xl">
                       {manga.synopsis ? manga.synopsis.slice(0, 290) : 'No Synopsis'}...

@@ -43,7 +43,7 @@ export interface MangaAPIResponse {
   self?: Object;
   next?: Object;
   total?: number;
-  data?: Manga | Manga[];
+  data?: Manga | Manga[] | null;
   error?: string;
 }
 

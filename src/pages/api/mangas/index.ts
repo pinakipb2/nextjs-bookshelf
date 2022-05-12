@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           // If page and limit, both are not present
           // show all the mangas available
           if (!page && !limit) {
-            const allMangas: Manga[] = await getAllMangas();
+            const allMangas: Manga[] | [] = await getAllMangas();
             res.status(200).json(allMangas);
           } else if (!page) {
             // If page is not present, return error
@@ -48,7 +48,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
             }
             paginatedMangas.total = TOTAL_MANGAS;
             paginatedMangas.data = await getPaginatedMangas(startIndex, limit);
-            res.status(200).json(paginatedMangas);
+            if (!paginatedMangas.data) {
+              res.status(200).json([]);
+            } else {
+              res.status(200).json(paginatedMangas);
+            }
           }
         }
       } catch (error) {

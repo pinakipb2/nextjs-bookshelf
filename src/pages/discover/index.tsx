@@ -14,7 +14,7 @@ export async function getStaticProps() {
   const page: number = 1;
   const limit: number = 5;
   const skip: number = (page - 1) * limit;
-  const mangas: Manga[] = await getPaginatedMangas(skip, limit);
+  const mangas: Manga[] | null = await getPaginatedMangas(skip, limit);
   return {
     props: {
       mangas,
@@ -86,7 +86,7 @@ const Discover: NextPage<{ mangas: Manga[]; limit: number }> = ({ mangas, limit 
             </div>
           </div>
         </div>
-        {mangas.length > 0 ? (
+        {mangas && mangas.length > 0 ? (
           <>
             <MangaCard mangas={mangas} />
             <div className="mx-64 items-center justify-center flex flex-col pb-5">

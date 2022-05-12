@@ -18,34 +18,46 @@ const select = {
 };
 
 // Skip 'n' records and take 'm' records after it
-export const getPaginatedMangas = async (skip: number, take: number): Promise<Manga[]> => {
-  const paginatedMangas: Manga[] = await prisma.manga.findMany({
-    skip,
-    take,
-    select,
-    orderBy: {
-      manga_id: 'asc',
-    },
-  });
-  return paginatedMangas;
+export const getPaginatedMangas = async (skip: number, take: number): Promise<Manga[] | null> => {
+  try {
+    const paginatedMangas: Manga[] = await prisma.manga.findMany({
+      skip,
+      take,
+      select,
+      orderBy: {
+        manga_id: 'asc',
+      },
+    });
+    return paginatedMangas;
+  } catch (err) {
+    return null;
+  }
 };
 
-export const getAllMangas = async (): Promise<Manga[]> => {
-  const allMangas: Manga[] = await prisma.manga.findMany({
-    select,
-    orderBy: {
-      manga_id: 'asc',
-    },
-  });
-  return allMangas;
+export const getAllMangas = async (): Promise<Manga[] | []> => {
+  try {
+    const allMangas: Manga[] = await prisma.manga.findMany({
+      select,
+      orderBy: {
+        manga_id: 'asc',
+      },
+    });
+    return allMangas;
+  } catch (err) {
+    return [];
+  }
 };
 
 export const getMangaById = async (ID: number): Promise<Manga | null> => {
-  const singleManga: Manga | null = await prisma.manga.findFirst({
-    where: {
-      manga_id: ID,
-    },
-    select,
-  });
-  return singleManga;
+  try {
+    const singleManga: Manga | null = await prisma.manga.findFirst({
+      where: {
+        manga_id: ID,
+      },
+      select,
+    });
+    return singleManga;
+  } catch (err) {
+    return null;
+  }
 };

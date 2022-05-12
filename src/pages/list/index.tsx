@@ -11,7 +11,7 @@ export async function getStaticProps() {
   const page: number = 6;
   const limit: number = 2;
   const skip: number = (page - 1) * limit;
-  const mangas: Manga[] = await getPaginatedMangas(skip, limit);
+  const mangas: Manga[] | null = await getPaginatedMangas(skip, limit);
   return {
     props: {
       mangas,
@@ -37,7 +37,11 @@ const List: NextPage<{ mangas: Manga[] }> = ({ mangas }: InferGetStaticPropsType
             </div>
           </div>
         </div>
-        {mangas.length > 0 ? <MangaCard mangas={mangas} /> : <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-32 mb-32">Oops! Nothing on your Reading List.</div>}
+        {mangas && mangas.length > 0 ? (
+          <MangaCard mangas={mangas} />
+        ) : (
+          <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-32 mb-32">Oops! Nothing on your Reading List.</div>
+        )}
       </div>
       <Footer />
     </>

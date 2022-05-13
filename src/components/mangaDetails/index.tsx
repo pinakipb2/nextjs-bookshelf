@@ -3,8 +3,11 @@ import Image from 'next/image';
 import { Manga, MangaImage } from '../../lib/types';
 import Tippy from '@tippyjs/react';
 import Notes from '../notes';
+import Stars from '../rating';
+import { useState } from 'react';
 
 const MangaDetails: NextPage<{ isLoading?: boolean; manga?: Manga }> = ({ isLoading, manga }) => {
+  const [rating, setRating] = useState<number>(0);
   if (!isLoading && manga) {
     return (
       <>
@@ -28,6 +31,7 @@ const MangaDetails: NextPage<{ isLoading?: boolean; manga?: Manga }> = ({ isLoad
                           </button>
                         </>
                       </a>
+                      <Stars rating={rating} onRating={(rate: number) => setRating(rate)} />
                     </div>
                     <div className="flex flex-col">
                       <div className="font-bold text-3xl mt-0 text-blue-700">{manga.title_english}</div>

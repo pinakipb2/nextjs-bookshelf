@@ -92,6 +92,8 @@ const MangaDetails: NextPage<{ isLoading?: boolean; manga?: Manga }> = ({ isLoad
                   <div className="pl-2 pt-2 flex flex-col min-w-max">
                     <div className="mt-0 focus:outline-none font-medium text-lg px-5 py-20 mb-2 text-slate-700 bg-slate-700 animate-pulse w-44">Explore</div>
                     <div className="mt-3 focus:outline-none font-medium rounded-lg text-lg px-5 py-2.5 mb-2 w-full text-slate-700 bg-slate-700 animate-pulse">Explore</div>
+                    <div className="mt-3 focus:outline-none font-medium rounded-lg text-sm px-2 py-1 mb-2 w-full text-slate-700 bg-slate-700 animate-pulse">Explore</div>
+                    <div className="mt-3 focus:outline-none font-medium rounded-lg text-2xl px-2 py-14 mb-2 w-full text-slate-700 bg-slate-700 animate-pulse">Explore</div>
                   </div>
                   <div className="flex flex-col">
                     <div className="mt-2 font-bold text-3xl text-slate-700 bg-slate-700 animate-pulse">English Title</div>

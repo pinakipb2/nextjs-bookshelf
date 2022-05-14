@@ -17,7 +17,7 @@ export async function getStaticProps() {
     props: {
       mangas,
     },
-    revalidate: REVALIDATE_IN,
+    revalidate: REVALIDATE_IN(2),
   };
 }
 

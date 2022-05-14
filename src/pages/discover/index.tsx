@@ -20,7 +20,7 @@ export async function getStaticProps() {
       mangas,
       limit,
     },
-    revalidate: REVALIDATE_IN,
+    revalidate: REVALIDATE_IN(60),
   };
 }
 

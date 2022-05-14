@@ -35,7 +35,7 @@ export async function getStaticProps(ctx: any) {
     props: {
       manga,
     },
-    revalidate: REVALIDATE_IN,
+    revalidate: REVALIDATE_IN(2),
   };
 }
 

@@ -29,6 +29,7 @@ const Stars: NextPage<StarProps> = ({ count, rating, color, onRating }) => {
       .map((idx) => (
         <FaStar key={idx} className="cursor-pointer" style={{ color: getColor(idx) }} onClick={() => onRating(idx)} onMouseEnter={() => setHoverRating(idx)} onMouseLeave={() => setHoverRating(0)} />
       ));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [count, rating, hoverRating]);
   return (
     <>

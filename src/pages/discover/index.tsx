@@ -89,13 +89,13 @@ const Discover: NextPage<{ mangas: Manga[]; limit: number }> = ({ mangas, limit 
         {mangas && mangas.length > 0 ? (
           <>
             <MangaCard mangas={mangas} />
-            <div className="mx-64 items-center justify-center flex flex-col pb-5">
-              <Pagination pageCount={pageCount} changePage={changePage} />
-            </div>
           </>
         ) : (
           <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-10 mb-14">Oops! No mangas found.</div>
         )}
+        <div className={`mx-64 items-center justify-center flex flex-col pb-5 ${mangas && mangas.length > 0 ? '' : 'hidden'}`}>
+          <Pagination pageCount={pageCount} changePage={changePage} />
+        </div>
       </div>
       <Footer />
     </>

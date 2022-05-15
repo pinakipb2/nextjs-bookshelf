@@ -1,10 +1,11 @@
 import type { NextPage } from 'next';
 import ReactPaginate from 'react-paginate';
 
-const Pagination: NextPage<{ pageCount: number; changePage: (selectedItem: { selected: number }) => void }> = ({ pageCount, changePage }) => (
+const Pagination: NextPage<{ initialPage: number; pageCount: number; changePage: (selectedItem: { selected: number }) => void }> = ({ initialPage, pageCount, changePage }) => (
   <ReactPaginate
     previousLabel="Previous"
     nextLabel="Next"
+    initialPage={initialPage}
     pageCount={pageCount}
     onPageChange={changePage}
     className="flex justify-center items-center list-none h-10 mt-10 space-x-2 select-none"

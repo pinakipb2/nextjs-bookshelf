@@ -1,4 +1,4 @@
-import type { NextPage, InferGetStaticPropsType } from 'next';
+import type { NextPage, GetServerSidePropsContext } from 'next';
 import Footer from '../../components/footer';
 import Header from '../../components/header';
 import MangaCard from '../../components/mangaCards/discover';
@@ -6,27 +6,29 @@ import Pagination from '../../components/pagination';
 import SEO from '../../components/seo';
 import { getPaginatedMangas } from '../../lib/dbquery';
 import { activeRoute, Manga } from '../../lib/types';
-import { PAGE_LIMIT, REVALIDATE_IN, TOTAL_MANGAS } from '../../lib/constants';
+import { PAGE_LIMIT, TOTAL_MANGAS } from '../../lib/constants';
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   // Reutrn page 'a'(page) with 'b'(limit) records each page
-  const page: number = 1;
+  const page: number = Number(ctx.query.page) || 1;
   const limit: number = PAGE_LIMIT;
   const skip: number = (page - 1) * limit;
   const mangas: Manga[] | null = await getPaginatedMangas(skip, limit);
   return {
     props: {
       mangas,
+      page,
       limit,
     },
-    revalidate: REVALIDATE_IN(60),
   };
 }
 
-const Discover: NextPage<{ mangas: Manga[]; limit: number }> = ({ mangas, limit }: InferGetStaticPropsType<typeof getStaticProps>) => {
+const Discover: NextPage<{ mangas: Manga[]; page: number; limit: number }> = ({ mangas, page, limit }) => {
+  const router = useRouter();
   // Current Page Number
-  const [pageNumber, setPageNumber] = useState<number>(0);
+  const [pageNumber, setPageNumber] = useState<number>(page - 1);
   // Number of pages visited
   const pagesVisited: number = pageNumber * limit;
   // Total number of pages
@@ -34,6 +36,7 @@ const Discover: NextPage<{ mangas: Manga[]; limit: number }> = ({ mangas, limit 
   // Function to change page number
   const changePage = ({ selected }: { selected: number }): void => {
     setPageNumber(selected);
+    router.push(`/discover?page=${selected + 1}`);
   };
 
   return (
@@ -94,7 +97,7 @@ const Discover: NextPage<{ mangas: Manga[]; limit: number }> = ({ mangas, limit 
           <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-10 mb-14">Oops! No mangas found.</div>
         )}
         <div className={`mx-64 items-center justify-center flex flex-col pb-5 ${mangas && mangas.length > 0 ? '' : 'hidden'}`}>
-          <Pagination pageCount={pageCount} changePage={changePage} />
+          <Pagination initialPage={pageNumber} pageCount={pageCount} changePage={changePage} />
         </div>
       </div>
       <Footer />

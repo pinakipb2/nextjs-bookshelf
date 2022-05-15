@@ -1,3 +1,4 @@
+import type { Prisma } from '@prisma/client';
 import { prisma } from './prisma';
 import { Manga } from './types';
 
@@ -24,9 +25,6 @@ export const getPaginatedMangas = async (skip: number, take: number): Promise<Ma
       skip,
       take,
       select,
-      orderBy: {
-        manga_id: 'asc',
-      },
     });
     return paginatedMangas;
   } catch (err) {
@@ -38,9 +36,6 @@ export const getAllMangas = async (): Promise<Manga[] | []> => {
   try {
     const allMangas: Manga[] = await prisma.manga.findMany({
       select,
-      orderBy: {
-        manga_id: 'asc',
-      },
     });
     return allMangas;
   } catch (err) {
@@ -71,6 +66,34 @@ export const getMangaByDBId = async (ID: string): Promise<Manga | null> => {
       select,
     });
     return singleManga;
+  } catch (err) {
+    return null;
+  }
+};
+
+export const getPaginatedMangasAlphabetically = async (skip: number, take: number, order: Prisma.SortOrder): Promise<Manga[] | null> => {
+  try {
+    const paginatedMangasAlphabetic: Manga[] | null = await prisma.manga.findMany({
+      skip,
+      take,
+      select,
+      orderBy: [{ title_english: order }],
+    });
+    return paginatedMangasAlphabetic;
+  } catch (err) {
+    return null;
+  }
+};
+
+export const getPaginatedMangasByPopularity = async (skip: number, take: number, order: Prisma.SortOrder): Promise<Manga[] | null> => {
+  try {
+    const paginatedMangasByPopularity: Manga[] | null = await prisma.manga.findMany({
+      skip,
+      take,
+      select,
+      orderBy: [{ popularity: order }],
+    });
+    return paginatedMangasByPopularity;
   } catch (err) {
     return null;
   }

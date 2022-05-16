@@ -4,7 +4,7 @@ import Header from '../../components/header';
 import MangaCard from '../../components/mangaCards/discover';
 import Pagination from '../../components/pagination';
 import SEO from '../../components/seo';
-import { getPaginatedMangasAlphabetically, getPaginatedMangas, getPaginatedMangasByPopularity } from '../../lib/dbquery';
+import { getPaginatedMangasAlphabetically, getPaginatedMangas, getPaginatedMangasByPopularity, getMangasBySearchTerm } from '../../lib/dbquery';
 import { activeRoute, Manga } from '../../lib/types';
 import { PAGE_LIMIT, TOTAL_MANGAS } from '../../lib/constants';
 import { useState } from 'react';
@@ -16,16 +16,23 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   const page: number = Number(ctx.query.page) || 1;
   let alphabetic: string = String(ctx.query.alphabetic);
   let popularity: string = String(ctx.query.popularity);
+  let search: string = String(ctx.query.s);
 
   const limit: number = PAGE_LIMIT;
   const skip: number = (page - 1) * limit;
   let mangas: Manga[] | null;
-  if (alphabetic === 'asc' || alphabetic === 'desc') {
+  if (search !== 'undefined') {
+    mangas = await getMangasBySearchTerm(search);
+    popularity = 'undefined';
+    alphabetic = 'undefined';
+  } else if (alphabetic === 'asc' || alphabetic === 'desc') {
     mangas = await getPaginatedMangasAlphabetically(skip, limit, alphabetic as Prisma.SortOrder);
     popularity = 'undefined';
+    search = 'undefined';
   } else if (popularity === 'asc' || popularity === 'desc') {
     mangas = await getPaginatedMangasByPopularity(skip, limit, popularity as Prisma.SortOrder);
     alphabetic = 'undefined';
+    search = 'undefined';
   } else {
     mangas = await getPaginatedMangas(skip, limit);
   }
@@ -36,11 +43,12 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       limit,
       alphabetic,
       popularity,
+      search,
     },
   };
 }
 
-const Discover: NextPage<{ mangas: Manga[]; page: number; limit: number; alphabetic: string; popularity: string }> = ({ mangas, page, limit, alphabetic, popularity }) => {
+const Discover: NextPage<{ mangas: Manga[]; page: number; limit: number; alphabetic: string; popularity: string; search: string }> = ({ mangas, page, limit, alphabetic, popularity, search }) => {
   const router = useRouter();
   // Current Page Number
   const [pageNumber, setPageNumber] = useState<number>(page - 1);
@@ -83,6 +91,20 @@ const Discover: NextPage<{ mangas: Manga[]; page: number; limit: number; alphabe
     }
   };
 
+  // Function to search for mangas based on given term
+  const searchMangas = (event: any) => {
+    if (event.key === 'Enter') {
+      // Remove unnecessary spaces
+      const searchTerm: string = event.target.value.trim().replace(/ +(?= )/g, '');
+      if (searchTerm) {
+        console.log(searchTerm);
+        router.push(`/discover?s=${searchTerm}`);
+      }
+    } else if (!event.target.value.trim()) {
+      router.push(`/discover?page=${page}`);
+    }
+  };
+
   return (
     <>
       <SEO title="Discover" />
@@ -92,9 +114,11 @@ const Discover: NextPage<{ mangas: Manga[]; page: number; limit: number; alphabe
           <div className="flex flex-col justify-center items-center">
             <div className="mb-10 xl:w-96 mt-10">
               <input
-                type="search"
-                className="w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white shadow-lg"
+                type="text"
+                className="w-full px-3 py-2 text-base font-normal text-gray-700 bg-white border border-solid border-gray-300 rounded m-0 focus:text-gray-700 focus:bg-white shadow-lg"
                 placeholder="Search Manga..."
+                defaultValue={search === 'undefined' ? '' : search}
+                onKeyUp={searchMangas}
               />
             </div>
             <div className="inline-flex rounded-md shadow-sm pb-10 h-full" role="group">
@@ -186,7 +210,7 @@ const Discover: NextPage<{ mangas: Manga[]; page: number; limit: number; alphabe
         ) : (
           <div className="mx-64 items-center justify-center flex flex-col text-3xl text-white mt-10 mb-14">Oops! No mangas found.</div>
         )}
-        <div className={`mx-64 items-center justify-center flex flex-col pb-5 ${mangas && mangas.length > 0 ? '' : 'hidden'}`}>
+        <div className={`mx-64 items-center justify-center flex flex-col pb-5 ${mangas && mangas.length > 0 && search === 'undefined' ? '' : 'hidden'}`}>
           <Pagination forcePage={pageNumber} pageCount={pageCount} changePage={changePage} />
         </div>
       </div>

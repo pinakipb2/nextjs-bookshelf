@@ -98,3 +98,59 @@ export const getPaginatedMangasByPopularity = async (skip: number, take: number,
     return null;
   }
 };
+
+export const getMangasBySearchTerm = async (searchTerm: string): Promise<Manga[] | null> => {
+  try {
+    // Capitalize every first letter
+    const words = searchTerm.split(' ');
+    const titleCaseTerm: string = words
+      .map((word: string) => {
+        return word[0].toUpperCase() + word.substring(1);
+      })
+      .join(' ');
+    const mangasBySearchTerm: Manga[] | null = await prisma.manga.findMany({
+      select,
+      where: {
+        OR: [
+          {
+            title_english: {
+              contains: searchTerm,
+              mode: 'insensitive',
+            },
+          },
+          {
+            title_japanese: {
+              contains: searchTerm,
+              mode: 'insensitive',
+            },
+          },
+          {
+            status: {
+              contains: searchTerm,
+              mode: 'insensitive',
+            },
+          },
+          {
+            synopsis: {
+              contains: searchTerm,
+              mode: 'insensitive',
+            },
+          },
+          {
+            authors: {
+              has: titleCaseTerm,
+            },
+          },
+          {
+            genres: {
+              has: titleCaseTerm,
+            },
+          },
+        ],
+      },
+    });
+    return mangasBySearchTerm;
+  } catch (err) {
+    return null;
+  }
+};

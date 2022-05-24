@@ -1,6 +1,6 @@
 import type { NextPage, GetServerSidePropsContext } from 'next';
 import Footer from '../../components/footer';
-import Header from '../../components/header';
+import Header from '../../components/navbar';
 import MangaCard from '../../components/mangaCards/discover';
 import Pagination from '../../components/pagination';
 import SEO from '../../components/seo';

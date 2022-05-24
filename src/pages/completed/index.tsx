@@ -1,6 +1,6 @@
 import type { NextPage, InferGetStaticPropsType } from 'next';
 import Footer from '../../components/footer';
-import Header from '../../components/header';
+import Header from '../../components/navbar';
 import MangaCard from '../../components/mangaCards/completed';
 import SEO from '../../components/seo';
 import { REVALIDATE_IN } from '../../lib/constants';

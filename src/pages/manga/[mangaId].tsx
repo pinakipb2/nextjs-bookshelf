@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import Footer from '../../components/footer';
-import Header from '../../components/header';
+import Header from '../../components/navbar';
 import MangaDetails from '../../components/mangaDetails';
 import SEO from '../../components/seo';
 import { PAGE_LIMIT, REVALIDATE_IN } from '../../lib/constants';

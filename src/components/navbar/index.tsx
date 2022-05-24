@@ -1,7 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import type { NextPage } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { activeRoute } from '../../lib/types';
+import Tippy from '@tippyjs/react';
 
 const Header: NextPage<{ current?: activeRoute }> = ({ current }) => {
   return (
@@ -38,7 +40,15 @@ const Header: NextPage<{ current?: activeRoute }> = ({ current }) => {
             </Link>
           </div>
           <div className="flex">
-            <Image src="/profile.png" alt="Mangashelf" width={40} height={40} className="cursor-pointer rounded-full bg-white py-2 items-center justify-center" />
+            <Tippy content="Pinaki Bhattacharjee" placement="bottom" className="bg-neutral-900 text-white rounded-xl p-2 mt-1 pl-3 pr-3">
+              <img
+                src={`https://avatars.dicebear.com/api/initials/pinaki-bhattacharjee.svg?backgroundColors[]=blue&backgroundColors[]=brown&backgroundColors[]=cyan&backgroundColors[]=deepOrange&backgroundColors[]=deepPurple&backgroundColors[]=green&backgroundColors[]=lightGreen&backgroundColors[]=purple&backgroundColors[]=red&backgroundColors[]=teal&fontSize=45`}
+                alt="Pinaki Bhattacharjee"
+                width={40}
+                height={40}
+                className="cursor-pointer rounded-full items-center justify-center"
+              />
+            </Tippy>
             <div className="ml-4 text-sm px-4 py-2 border rounded text-white border-white hover:border-transparent hover:text-black hover:bg-white mt-4 lg:mt-0 items-center justify-center cursor-pointer">
               Logout
             </div>
